@@ -9,6 +9,7 @@ Rasem::SVG_EXPANSION = {
   :image  => [:x,:y,:width,:height,:"xlink:href"],
   :ellipse => [:cx,:cy,:rx,:ry],
   :text   => [:x,:y],
+  :tspan   => [:x,:y, :dx, :dy],
 
   :rect   => lambda do |args|
   raise "Wrong unnamed argument count" unless args.size == 4 or args.size == 5 or args.size == 6
@@ -202,6 +203,12 @@ class Rasem::SVGTag
     append_child Rasem::SVGRaw.new(@img, data)
   end
 
+  def lines(text)
+    x = attributes[:x]
+    text.each_line.with_index do |line, i|
+      tspan(:x => x, :dy => "#{i == 0 ? 0 : 1}em") { raw line }
+    end
+  end
 
   #special case for path block
   def path(attributes = {}, &block)
