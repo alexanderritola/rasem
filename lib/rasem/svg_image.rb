@@ -206,7 +206,9 @@ class Rasem::SVGTag
   def lines(text)
     x = attributes[:x]
     text.each_line.with_index do |line, i|
-      tspan(:x => x, :dy => "#{i == 0 ? 0 : 1}em") { raw line }
+      tspan(:x => x, :dy => "#{i == 0 ? 0 : 1}em") do
+        raw line.gsub(/[ ]{2,}/) { |space| '&nbsp;' * space.size }
+      end
     end
   end
 
