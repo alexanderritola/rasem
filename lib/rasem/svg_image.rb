@@ -1,6 +1,7 @@
 Rasem::SVG_ALIAS = {
   :group  => :g,
   :rectangle => :rect,
+  :link => :a,
 }
 
 Rasem::SVG_EXPANSION = {
@@ -10,6 +11,7 @@ Rasem::SVG_EXPANSION = {
   :ellipse => [:cx,:cy,:rx,:ry],
   :text   => [:x,:y],
   :tspan   => [:x,:y, :dx, :dy],
+  :a      => [:"xlink:href"],
 
   :rect   => lambda do |args|
   raise "Wrong unnamed argument count" unless args.size == 4 or args.size == 5 or args.size == 6
