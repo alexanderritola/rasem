@@ -434,15 +434,17 @@ class Rasem::SVGImage < Rasem::SVGTagWithParent
   def initialize(params = {}, output=nil, &block)
     @defs = nil
     @defs_ids = {}
-    @options = {header: true}
+    @options = {lean: false}
 
-    if !params[:header].nil?
-      @options[:header] = params[:header]
+    if !params[:lean].nil?
+      @options[:lean] = params[:lean]
+      params.delete(:lean)
     end
     params[:"version"] = "1.1" unless params[:"version"]
-    params[:"xmlns"] = "http://www.w3.org/2000/svg" unless params[:"xmlns"]
-    params[:"xmlns:xlink"] = "http://www.w3.org/1999/xlink" unless params[:"xmlns:xlink"]
-    params.delete(:header)
+    if !options[:lean]
+      params[:"xmlns"] = "http://www.w3.org/2000/svg" unless params[:"xmlns"]
+      params[:"xmlns:xlink"] = "http://www.w3.org/1999/xlink" unless params[:"xmlns:xlink"]
+    end
     super(self, "svg", params, &block)
 
     @output = (output or "")
@@ -532,7 +534,7 @@ private
 
   # Writes file header
   def write_header(output)
-    return unless @options[:header]
+    return if @options[:lean]
     output << <<-HEADER
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">

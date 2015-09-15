@@ -183,7 +183,7 @@ describe Rasem::SVGImage do
   end
 
   it "should skip XML correctly" do
-    img = Rasem::SVGImage.new(width: 100, height: 100, header: false)
+    img = Rasem::SVGImage.new(width: 100, height: 100, lean: true)
     str = ""
     img.write(str)
     str.should_not =~ /^<\?xml/
