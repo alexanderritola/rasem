@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe Rasem::SVGTagWithParent do
 
   it "should get a reference to the main image object" do
-    img = Rasem::SVGImage.new(:width => 100, :height => 100)
+    img = Rasem::SVGImage.new(width: 100, height: 100)
     l = img.line(0, 0, 100, 100)
 
     (l.img == img).should == true
@@ -11,7 +11,7 @@ describe Rasem::SVGTagWithParent do
 
 
   it "should propagate the reference to the main image object" do
-    img = Rasem::SVGImage.new(:width => 100, :height => 100)
+    img = Rasem::SVGImage.new(width: 100, height: 100)
     l = img.group.group.line(0, 0, 100, 100)
 
     (l.img == img).should == true
@@ -24,7 +24,7 @@ end
 describe Rasem::SVGImage do
 
   it "should create a defs section" do
-    img = Rasem::SVGImage.new(:width => 100, :height => 100) do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       defs do
         group(:id => "group1") do
           circle(0, 0, 20)
@@ -37,7 +37,7 @@ describe Rasem::SVGImage do
 
 
   it "should also create a defs section" do
-    img = Rasem::SVGImage.new(:width => 100, :height => 100) do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       def_group("group1") do
         circle(0, 0, 20)
       end
@@ -48,7 +48,7 @@ describe Rasem::SVGImage do
 
 
   it "should update the existing definition" do
-    img = Rasem::SVGImage.new(:width => 100, :height => 100) do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       def_group("group1") do
         circle(0, 0, 20)
       end
@@ -64,7 +64,7 @@ describe Rasem::SVGImage do
 
 
   it "should skip the new definition" do
-    img = Rasem::SVGImage.new(:width => 100, :height => 100) do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       def_group("group1") do
         circle(0, 0, 20)
       end
@@ -86,7 +86,7 @@ describe Rasem::SVGImage do
 
 
   it "should fail with the new definition" do
-    img = Rasem::SVGImage.new(:width => 100, :height => 100)
+    img = Rasem::SVGImage.new(width: 100, height: 100)
     img.def_group("group1") do
       circle(0, 0, 20)
     end

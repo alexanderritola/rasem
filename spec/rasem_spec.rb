@@ -162,7 +162,7 @@ end
 
 describe Rasem::SVGImage do
   it "should initialize an empty image" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100")
+    img = Rasem::SVGImage.new(width: 100, height: 100)
     str = ""
     img.write(str)
     str.should =~ /<svg.*width="100".*height="100"/
@@ -170,20 +170,27 @@ describe Rasem::SVGImage do
 
   it "should initialize an empty image in given output" do
     str = ""
-    img = Rasem::SVGImage.new({:width=>"100", :height=>"100"}, str) do
+    img = Rasem::SVGImage.new({width: 100, height: 100}, str) do
     end
     str.should =~ /<svg.*width="100".*height="100"/
   end
 
   it "should initialize XML correctly" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100")
+    img = Rasem::SVGImage.new(width: 100, height: 100)
     str = ""
     img.write(str)
     str.should =~ /^<\?xml/
   end
 
+  it "should skip XML correctly" do
+    img = Rasem::SVGImage.new(width: 100, height: 100, header: false)
+    str = ""
+    img.write(str)
+    str.should_not =~ /^<\?xml/
+  end
+
   it "should draw line using method" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100")
+    img = Rasem::SVGImage.new(width: 100, height: 100)
     img.line(0, 0, 100, 100)
     str = ""
     img.write(str)
@@ -195,7 +202,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw line using a block" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       line(0, 0, 100, 100)
     end
     str = ""
@@ -209,7 +216,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a line with style" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       line(0, 0, 10, 10, :fill=>"white")
     end
     str = ""
@@ -220,7 +227,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a circle" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       circle(0, 0, 10)
     end
     str = ""
@@ -233,7 +240,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a circle with style" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       circle(0, 0, 10, :fill=>"white")
     end
     str = ""
@@ -244,7 +251,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a rectangle" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       rectangle(0, 0, 100, 300)
     end
     str = ""
@@ -256,7 +263,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a rectangle with style" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       rectangle(0, 0, 10, 10, :fill=>"white")
     end
     str = ""
@@ -267,7 +274,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a symmetric round-rectangle" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       rectangle(0, 0, 100, 300, 20)
     end
     str = ""
@@ -281,7 +288,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a symmetric rounded-rectangle with style" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       rectangle(0, 0, 10, 10, 2, :fill=>"white")
     end
     str = ""
@@ -292,7 +299,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a non-symmetric round-rectangle" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       rectangle(0, 0, 100, 300, 20, 5)
     end
     str = ""
@@ -306,7 +313,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a non-symmetric rounded-rectangle with style" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       rectangle(0, 0, 10, 10, 2, 4, :fill=>"white")
     end
     str = ""
@@ -317,7 +324,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw an ellipse" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       ellipse(0, 0, 100, 300)
     end
     str = ""
@@ -331,7 +338,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw an ellipse with style" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       ellipse(0, 0, 3, 10, :fill=>"white")
     end
     str = ""
@@ -342,7 +349,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a polygon given an array of points" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       polygon([[0,0], [1,2], [3,4]])
     end
     str = ""
@@ -353,7 +360,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a polygon with style" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       polygon([[0,0], [1,2], [3,4]], :fill=>"white")
     end
     str = ""
@@ -364,7 +371,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw a polyline given an array of points" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       polyline([[0,0], [1,2], [3,4]])
     end
     str = ""
@@ -375,7 +382,7 @@ describe Rasem::SVGImage do
   end
 
   it "should fix style names" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       circle(0, 0, 10, :stroke_width=>3)
     end
     str = ""
@@ -386,7 +393,7 @@ describe Rasem::SVGImage do
   end
 
   it "should group styles" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       with_style :stroke_width=>3 do
         circle(0, 0, 10)
       end
@@ -399,7 +406,7 @@ describe Rasem::SVGImage do
   end
 
   it "should group styles nesting" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       with_style :stroke_width=>3 do
         with_style :fill=>"black" do
           circle(0, 0, 10)
@@ -415,7 +422,7 @@ describe Rasem::SVGImage do
   end
 
   it "should group styles override nesting" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       with_style :stroke_width=>3 do
         with_style :stroke_width=>5 do
           circle(0, 0, 10)
@@ -430,7 +437,7 @@ describe Rasem::SVGImage do
   end
 
   it "should group styles limited effect" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       with_style :stroke_width=>3 do
         with_style :stroke_width=>5 do
         end
@@ -445,7 +452,7 @@ describe Rasem::SVGImage do
   end
 
   it "should create a group" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       group :stroke_width=>3 do
         circle(0, 0, 10)
         circle(20, 20, 10)
@@ -458,7 +465,7 @@ describe Rasem::SVGImage do
   end
 
   it "should apply transforms to a group" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       group(:scale => 5, :translate => [15,20]) do
         circle(0, 0, 10)
       end
@@ -471,7 +478,7 @@ describe Rasem::SVGImage do
   end
 
   it "should update width and height after init" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       self.width = 200
       self.height = 300
     end
@@ -483,7 +490,7 @@ describe Rasem::SVGImage do
   end
 
   it "should draw text" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       text 10, 20 do 
         raw "Hello world!"
       end
@@ -498,7 +505,7 @@ describe Rasem::SVGImage do
   end
 
 #  it "should draw multiline text" do
-#    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+#    img = Rasem::SVGImage.new(width: 100, height: 100) do
 #      text 10, 20 do
 #        raw "Hello\nworld!"
 #      end
@@ -510,7 +517,7 @@ describe Rasem::SVGImage do
 #  end
 
   it "should draw text with font" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       text 10, 20, "font-family"=>"Times", "font-size"=>24 do
         raw "Hello World"
       end
@@ -523,7 +530,7 @@ describe Rasem::SVGImage do
   end
 
   it "should include an image" do
-    img = Rasem::SVGImage.new(:width=>"100", :height=>"100") do
+    img = Rasem::SVGImage.new(width: 100, height: 100) do
       image 10, 20, 30, 40, 'image.png'
     end
     str = ""
