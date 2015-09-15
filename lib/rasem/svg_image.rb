@@ -101,8 +101,8 @@ class Rasem::SVGTag
   end
 
 
-  def scale(sx, sy = 1)
-    add_transform(:scale, "#{sx}, #{sy}")
+  def scale(sx, sy = nil)
+    add_transform(:scale, [sx, sy].compact.join(', '))
     self
   end
 

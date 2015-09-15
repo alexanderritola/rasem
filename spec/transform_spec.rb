@@ -30,6 +30,13 @@ describe Rasem::SVGTag do
     tag.to_s.should =~ %r{.*transform=\"scale\(10,\s*10\)}
   end
 
+  it "should add a scale transformation with only 1 param" do
+    tag = Rasem::SVGTag.new("g")
+    tag.scale(10)
+
+    tag.to_s.should =~ %r{.*transform=\"scale\(10\)}
+  end
+
   it "should return the instance after scale call" do
     tag = Rasem::SVGTag.new("g")
     tag.scale(10, 10).should == tag
