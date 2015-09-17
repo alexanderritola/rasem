@@ -205,10 +205,10 @@ class Rasem::SVGTag
     append_child Rasem::SVGRaw.new(@img, data)
   end
 
-  def lines(text, line_height = 20)
+  def lines(text, line_height: 20, line_break: "\n\r")
     x = attributes[:x]
     y = attributes[:y]
-    text.each_line.with_index do |line, i|
+    text.split(line_break).with_index do |line, i|
       tspan(:x => x, :y => "#{y + line_height * i}") do
         raw line.gsub(/[ ]{2,}/) { |space| '&nbsp;' * space.size }
       end
