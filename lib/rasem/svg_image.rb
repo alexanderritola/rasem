@@ -208,7 +208,7 @@ class Rasem::SVGTag
   def lines(text, line_height: 20, line_break: "\n\r")
     x = attributes[:x]
     y = attributes[:y]
-    text.split(line_break).with_index do |line, i|
+    text.split(line_break).each_with_index do |line, i|
       tspan(:x => x, :y => "#{y + line_height * i}") do
         raw line.gsub(/[ ]{2,}/) { |space| '&nbsp;' * space.size }
       end
@@ -234,7 +234,7 @@ class Rasem::SVGTag
     @img.add_def(id, Rasem::SVGLinearGradient.new(@img, attributes), if_exists, &block)
   end
 
-  
+
   #special case for radialGradient
   def radialGradient(id, attributes={}, if_exists = :skip, &block)
     raise "image reference isn't set, cannot use 'defs' (and thus radialGradient) !" if @img.nil?
@@ -256,7 +256,7 @@ class Rasem::SVGTag
       #try to find args expansion rule
       expansion = Rasem::SVG_EXPANSION[tag.to_sym]
       raise "Unnamed parameters for #{tag} are not allowed!" unless expansion
-    
+
       if expansion.is_a? Array
         raise "Bad unnamed parameter count for #{tag}, expecting #{expansion.size} got #{if args.last.is_a? Hash then args.size-1 else args.size end}" unless (args.size == expansion.size and not args.last.is_a? Hash) or (args.size - 1 == expansion.size and args.last.is_a? Hash)
         parameters = Hash[expansion.zip(args)]
@@ -299,18 +299,18 @@ class Rasem::SVGTag
     result
   end
 
-  
+
   def push_defaults(defaults)
     @defaults = [] unless @defaults
     @defaults.push(defaults)
   end
 
-  
+
   def pop_defaults()
     @defaults.pop()
   end
 
-  
+
   def with_style(style={}, &proc)
     push_defaults(style)
     # Call the block
@@ -319,7 +319,7 @@ class Rasem::SVGTag
     pop_defaults()
   end
 
-  
+
   def validate_child_name(name)
     #aliases the name (like, group instead of g)
     name = Rasem::SVG_ALIAS[name.to_sym] if Rasem::SVG_ALIAS[name.to_sym]
@@ -328,7 +328,7 @@ class Rasem::SVGTag
     if Rasem::SVG_STRUCTURE[@tag.to_sym][:elements].include?(name.to_sym)
       name.to_sym
     elsif Rasem::SVG_ELEMENTS.include?(name.to_sym)
-      raise "#{@tag} should not contain child #{name}" 
+      raise "#{@tag} should not contain child #{name}"
     end
   end
 
@@ -351,7 +351,7 @@ class Rasem::SVGTag
       super
     end
   end
-  
+
 
   def write(output)
     raise "Can not write to given output!" unless output.respond_to?(:<<)
@@ -375,7 +375,7 @@ class Rasem::SVGTag
       output << ">"
       @children.each { |c| c.write(output) }
       output << "</#{@tag.to_s}>"
-    end  
+    end
   end
 
   def to_s
@@ -512,7 +512,7 @@ class Rasem::SVGImage < Rasem::SVGTagWithParent
 
   def write(output)
     validate_output(output)
-    write_header(output) 
+    write_header(output)
     @children.unshift @defs if @defs
     super(output)
     @children.shift if @defs
@@ -655,7 +655,7 @@ class Rasem::SVGPath < Rasem::SVGTagWithParent
 
   ##
   # quadratic Bezier curveTo commands
-  # 
+  #
   # Draws a quadratic Bezier curve from current pen point to dx,dy. x1,y1 is the
   # control point controlling how the curve bends.
   #
@@ -695,7 +695,7 @@ class Rasem::SVGPath < Rasem::SVGTagWithParent
   # The x-rotation determines how much the arc is to be rotated around the
   # x-axis. It only seems to have an effect when rx and ry have different values.
   # The large-arc-flag doesn't seem to be used (can be either 0 or 1). Neither
-  # value (0 or 1) changes the arc. 
+  # value (0 or 1) changes the arc.
   # The sweep-flag determines the direction to draw the arc in.
   #
   ##
@@ -720,7 +720,7 @@ class Rasem::SVGPath < Rasem::SVGTagWithParent
   end
 
 
-private 
+private
 
 
   def add_d(op)
