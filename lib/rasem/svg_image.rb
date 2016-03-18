@@ -492,22 +492,23 @@ class Rasem::SVGImage < Rasem::SVGTagWithParent
 
 
 
-  #def text(x, y, text, style=DefaultStyles[:text])
-  #  @output << %Q{<text x="#{x}" y="#{y}"}
-  #  style = fix_style(default_style.merge(style))
-  #  @output << %Q{ font-family="#{style.delete "font-family"}"} if style["font-family"]
-  #  @output << %Q{ font-size="#{style.delete "font-size"}"} if style["font-size"]
-  #  write_style style
-  #  @output << ">"
-  #  dy = 0      # First line should not be shifted
-  #  text.each_line do |line|
-  #    @output << %Q{<tspan x="#{x}" dy="#{dy}em">}
-  #    dy = 1    # Next lines should be shifted
-  #    @output << line.rstrip
-  #    @output << "</tspan>"
-  #  end
-  #  @output << "</text>"
-  #end
+  def text(x, y, text, style=DefaultStyles[:text])
+   @output << %Q{<text x="#{x}" y="#{y}"}
+   style = fix_style(default_style.merge(style))
+   @output << %Q{ font-family="#{style.delete "font-family"}"} if style["font-family"]
+   @output << %Q{ font-size="#{style.delete "font-size"}"} if style["font-size"]
+   @output << %Q{ text-anchor="#{style.delete "text-anchor"}"} if style["text-anchor"]
+   write_style style
+   @output << ">"
+   dy = 0      # First line should not be shifted
+   text.each_line do |line|
+     @output << %Q{<tspan x="#{x}" dy="#{dy}em">}
+     dy = 1    # Next lines should be shifted
+     @output << line.rstrip
+     @output << "</tspan>"
+   end
+   @output << "</text>"
+  end
 
 
   def write(output)
@@ -766,4 +767,3 @@ class Rasem::SVGRadialGradient < Rasem::SVGGradient
   end
 
 end
-
